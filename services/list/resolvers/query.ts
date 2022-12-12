@@ -3,7 +3,11 @@ import { Context } from '../../../libs/context'
 
 export const query: Resolvers<Context>['Query'] = {
   lists: async (_parent, _args, ctx) => ctx.prisma.list.findMany({include: {
-    tasks: true,
+    tasks:{
+      orderBy: {
+        order: 'asc',
+      },
+    },
   },}),
   list: async (_parent, { id }, ctx) =>
     ctx.prisma.list.findUnique({

@@ -15,6 +15,7 @@ export const typeDefs = gql`
   type Task {
     id: ID!
     title: String!
+    order: Int!
   }
 
   input CreateListInput {
