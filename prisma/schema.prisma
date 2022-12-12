@@ -1,0 +1,32 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String @id @default(uuid())
+  username String
+  password String
+  tasks    Task[]
+}
+model List {
+  id       String @id @default(uuid())
+  title    String
+  tasks    Task[]
+  order    Int @default(autoincrement())
+}
+model Task {
+  id      String @id @default(uuid())
+  title   String
+  status  String
+  list    List?   @relation(fields: [listId], references: [id])
+  listId  String?
+  order   Int @default(autoincrement())
+  assignee User?  @relation(fields: [userId], references: [id])
+  userId  String? 
+}
