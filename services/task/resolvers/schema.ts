@@ -23,6 +23,7 @@ export const typeDefs = gql`
     title: String!
     list: String
     status: String!
+    order:Int!
   }
  
   input UpdateTaskInput {

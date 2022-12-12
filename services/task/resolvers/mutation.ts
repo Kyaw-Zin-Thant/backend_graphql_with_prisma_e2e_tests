@@ -3,11 +3,12 @@ import { Context } from '../../../libs/context'
 
 export const mutation: Resolvers<Context>['Mutation'] = {
   createTask: async (_parent, { input }, ctx) => {
-    const { title, status = 'INCOMPLETE', list } = input
-    return ctx.prisma.task.create({ data: { title, status, order: 1, listId: list ?? '' } })
+    const { title, status = 'INCOMPLETE', list ,order } = input
+    await sortTasksOrder(order,list,ctx)
+    return ctx.prisma.task.create({ data: { title, status, order, listId: list ?? '' } })
   },
   updateTask: async (_parent, { id, input }, ctx) => {
-
+    await sortTasksOrder(input.order,input.listId,ctx)
     return ctx.prisma.task.update({
       where: { id },
       data: {
